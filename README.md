@@ -3,6 +3,8 @@
 A hard-authentic design system inspired by id Software's *DOOM* (1993).
 For websites, web apps, Tauri apps, and TUIs.
 
+**[► View it live](https://YOUR-USERNAME.github.io/stbar/)** — the landing page, style guide, and demo all running with the full STBAR styling (scanlines, bevels, AmazDooM logo, and all).
+
 > Named for `STBAR` — the lump in the original DOOM WAD that contains the
 > status-bar graphic. It's the brown beveled HUD plate this whole system
 > is built around.
@@ -35,6 +37,7 @@ Scanlines, vignette, bevels, glow, and the alternating-bevel DOOM logo are all C
 | `STBAR-Style-Guide.docx` | Printable/shareable written guide with palette swatches, type rules, and do/don'ts. |
 | `FONTS.md` | Font attribution and license details. |
 | `LICENSE` | MIT — covers the code, docs, and stylesheets authored here. |
+| `index.html` | Landing page served by GitHub Pages at the repo root. Links to the style guide and demo. |
 | `screenshots/` | Renders of `demo.html` and `style-guide.html` used in this README. |
 
 ## Quick start

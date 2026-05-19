@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>STBAR — A design system inspired by DOOM (1993)</title>
+  <meta name="description" content="STBAR is a hard-authentic design system inspired by id Software's DOOM (1993). Drop-in CSS, sample interface, and TUI reference — for web, Tauri apps, and TUIs.">
+  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Rubik+Mono+One&family=VT323&family=Press+Start+2P&family=Special+Elite&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="doom.css">
+  <style>
+    .landing { max-width: 880px; margin: 0 auto; padding: 48px 24px; text-align: center; }
+    .landing__logo { display: block; margin-bottom: 8px; }
+    .landing__lede { color: var(--doom-bone-dim); max-width: 640px; margin: 24px auto 0; font-size: 18px; line-height: 1.5; }
+    .landing__cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
+    @media (max-width: 720px) { .landing__cards { grid-template-columns: 1fr; } }
+    .card { display: block; text-align: left; padding: 24px; text-decoration: none; border: none; transition: filter 0.1s; }
+    .card:hover { filter: brightness(1.15); }
+    .card:hover h3 { color: var(--doom-hellfire-bright); text-shadow: var(--doom-glow-fire); }
+    .card h3 { color: var(--doom-bone); margin: 0 0 8px; }
+    .card p { color: var(--doom-bone-dim); margin: 0; font-size: 15px; }
+    .meta { display: flex; gap: 12px; justify-content: center; margin-top: 32px; font-family: var(--doom-font-ui); font-size: 16px; color: var(--doom-ash); letter-spacing: 0.08em; text-transform: uppercase; flex-wrap: wrap; }
+    .meta a { color: var(--doom-bone-dim); border-bottom: 1px dotted var(--doom-ash); }
+    .meta a:hover { color: var(--doom-hellfire-bright); }
+    .badges { margin-top: 16px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  </style>
+</head>
+<body class="doom-scanlines doom-vignette">
+  <main class="landing">
+
+    <h1 class="doom-logo landing__logo">
+      <span>D</span><span class="alt">O</span><span>O</span><span class="alt">M</span>
+    </h1>
+    <div class="doom-h4" style="color: var(--doom-bone-dim); letter-spacing: 0.16em;">STBAR · DESIGN SYSTEM</div>
+    <div class="doom-divider" style="max-width: 480px; margin: 24px auto 0;">RIP AND TEAR</div>
+
+    <p class="landing__lede">
+      A hard-authentic design system inspired by id Software's <em>DOOM</em> (1993).
+      Drop-in CSS, a living component catalog, a sample interface, and an ANSI/TUI
+      reference. For web, Tauri apps, and terminal UIs.
+    </p>
+
+    <div class="badges">
+      <span class="doom-tag doom-tag--red">DOOM-INSPIRED</span>
+      <span class="doom-tag doom-tag--green">MIT LICENSED</span>
+      <span class="doom-tag doom-tag--yellow">FONTS BUNDLED</span>
+    </div>
+
+    <div class="landing__cards">
+      <a class="card doom-panel" href="style-guide.html">
+        <h3>► Browse the Style Guide</h3>
+        <p>Every component, color token, type specimen, and rule — on one scrollable page.</p>
+      </a>
+      <a class="card doom-panel" href="demo.html">
+        <h3>► View the UAC Terminal</h3>
+        <p>Full sample interface — HUD, radar, alerts, loadout, system log — built end-to-end with STBAR.</p>
+      </a>
+    </div>
+
+    <div class="meta">
+      <span>v1.0</span>
+      <span style="color: var(--doom-ash);">·</span>
+      <a href="https://github.com/">Source on GitHub</a>
+      <span style="color: var(--doom-ash);">·</span>
+      <span>MIT License</span>
+    </div>
+
+    <footer style="margin-top: 80px; color: var(--doom-ash); font-family: var(--doom-font-typewriter); font-size: 14px;">
+      Not affiliated with id Software, ZeniMax Media, Bethesda, or Microsoft.
+      <br>DOOM is a trademark of ZeniMax Media Inc.
+    </footer>
+  </main>
+</body>
+</html>
