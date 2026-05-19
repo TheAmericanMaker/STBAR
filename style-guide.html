@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>STBAR — Living Style Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Rubik+Mono+One&family=VT323&family=Press+Start+2P&family=Special+Elite&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="doom.css">
+  <style>
+    /* Page-specific scaffolding (NOT part of the system) */
+    .sg-shell { display: grid; grid-template-columns: 220px 1fr; gap: 24px; }
+    .sg-nav {
+      position: sticky; top: 16px; align-self: start;
+      padding: 16px;
+      background: var(--doom-panel);
+      box-shadow:
+        inset 4px 4px 0 0 var(--doom-panel-light),
+        inset -4px -4px 0 0 var(--doom-panel-dark);
+      font-family: var(--doom-font-ui);
+      font-size: 16px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      max-height: calc(100vh - 32px);
+      overflow-y: auto;
+    }
+    .sg-nav a { display: block; color: var(--doom-bone-dim); border: none; padding: 4px 0; }
+    .sg-nav a:hover { color: var(--doom-hellfire-bright); text-shadow: var(--doom-glow-fire); }
+    section { scroll-margin-top: 24px; padding: 24px 0; border-bottom: 2px solid #1a1410; }
+    .swatch { display: flex; flex-direction: column; gap: 4px; }
+    .swatch__chip { height: 64px; border: 2px solid #000; box-shadow: inset 2px 2px 0 rgba(255,255,255,0.12), inset -2px -2px 0 rgba(0,0,0,0.4); }
+    .swatch__name { font-family: var(--doom-font-ui); font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--doom-bone); }
+    .swatch__hex { font-family: var(--doom-font-body); font-size: 12px; color: var(--doom-ash); }
+    .swatch-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; }
+    .spec { display: flex; flex-direction: column; gap: 4px; padding: 12px 0; border-bottom: 1px dashed #2a221c; }
+    .spec__meta { font-family: var(--doom-font-body); font-size: 12px; color: var(--doom-ash); }
+    @media (max-width: 800px) { .sg-shell { grid-template-columns: 1fr; } .sg-nav { position: static; } }
+  </style>
+</head>
+<body class="doom-scanlines doom-vignette">
+  <div class="doom-container">
+
+    <!-- =============== HERO =============== -->
+    <header style="text-align:center; padding: 48px 0 24px;">
+      <h1 class="doom-logo" style="display:block;">
+        <span>D</span><span class="alt">O</span><span>O</span><span class="alt">M</span>
+      </h1>
+      <p class="doom-h4" style="margin-top:8px; color: var(--doom-bone-dim);">STBAR · a design system inspired by id software, 1993</p>
+      <div class="doom-divider" style="max-width:600px; margin: 24px auto 0;">RIP AND TEAR</div>
+    </header>
+
+    <div class="sg-shell">
+
+      <!-- =============== NAV =============== -->
+      <nav class="sg-nav doom-stack" aria-label="Style guide sections">
+        <a href="#colors">Palette</a>
+        <a href="#type">Typography</a>
+        <a href="#panels">Panels</a>
+        <a href="#hud">Status HUD</a>
+        <a href="#buttons">Buttons</a>
+        <a href="#inputs">Inputs</a>
+        <a href="#bars">Bars</a>
+        <a href="#alerts">Alerts</a>
+        <a href="#tags">Tags &amp; Keys</a>
+        <a href="#tables">Tables</a>
+        <a href="#code">Code</a>
+        <a href="#voice">Voice</a>
+        <a href="#usage">Usage</a>
+      </nav>
+
+      <main class="doom-stack">
+
+        <!-- =============== PALETTE =============== -->
+        <section id="colors">
+          <h2>Palette</h2>
+          <p>Every color in DOOM is doing a job: signaling threat, life, ammo, or environment. Use the signal tier for state, the surface tier for chrome, and the panel tier for plates and bezels.</p>
+
+          <h3 style="margin-top:24px;">Surface</h3>
+          <div class="swatch-grid">
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-bg-void)"></div><span class="swatch__name">Void</span><span class="swatch__hex">#0a0a0a</span></div>
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-bg-stone)"></div><span class="swatch__name">Stone</span><span class="swatch__hex">#1a1715</span></div>
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-bg-iron)"></div><span class="swatch__name">Iron</span><span class="swatch__hex">#2a2522</span></div>
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-bg-grate)"></div><span class="swatch__name">Grate</span><span class="swatch__hex">#15110e</span></div>
+          </div>
+
+          <h3 style="margin-top:24px;">Panel (HUD plate)</h3>
+          <div class="swatch-grid">
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-panel-light)"></div><span class="swatch__name">Panel Light</span><span class="swatch__hex">#7a5e3c</span></div>
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-panel)"></div><span class="swatch__name">Panel</span><span class="swatch__hex">#4a3a2a</span></div>
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-panel-deep)"></div><span class="swatch__name">Panel Deep</span><span class="swatch__hex">#38291c</span></div>
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-panel-dark)"></div><span class="swatch__name">Panel Dark</span><span class="swatch__hex">#251a10</span></div>
+          </div>
+
+          <h3 style="margin-top:24px;">Signal</h3>
+          <div class="swatch-grid">
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-blood)"></div><span class="swatch__name">Blood</span><span class="swatch__hex">#b51d0e</span></div>
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-blood-bright)"></div><span class="swatch__name">Blood Bright</span><span class="swatch__hex">#e8341a</span></div>
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-hellfire)"></div><span class="swatch__name">Hellfire</span><span class="swatch__hex">#f96e1f</span></div>
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-hellfire-bright)"></div><span class="swatch__name">Flare</span><span class="swatch__hex">#ffb347</span></div>
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-marine-green)"></div><span class="swatch__name">Marine Green</span><span class="swatch__hex">#36a330</span></div>
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-armor-blue)"></div><span class="swatch__name">Armor Blue</span><span class="swatch__hex">#1e5fb8</span></div>
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-key-yellow)"></div><span class="swatch__name">Key Yellow</span><span class="swatch__hex">#f0c20c</span></div>
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-toxic)"></div><span class="swatch__name">Toxic</span><span class="swatch__hex">#7ad932</span></div>
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-rust)"></div><span class="swatch__name">Rust</span><span class="swatch__hex">#8b4513</span></div>
+          </div>
+
+          <h3 style="margin-top:24px;">Type</h3>
+          <div class="swatch-grid">
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-bone)"></div><span class="swatch__name">Bone</span><span class="swatch__hex">#e8dcc4</span></div>
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-bone-dim)"></div><span class="swatch__name">Bone Dim</span><span class="swatch__hex">#b8a886</span></div>
+            <div class="swatch"><div class="swatch__chip" style="background:var(--doom-ash)"></div><span class="swatch__name">Ash</span><span class="swatch__hex">#6e655a</span></div>
+          </div>
+        </section>
+
+        <!-- =============== TYPE =============== -->
+        <section id="type">
+          <h2>Typography</h2>
+          <p>The display face is <strong>AmazDooM</strong> — a free recreation of the DOOM logo lettering. It ships in Left, Right, and Outline variants; alternating Left/Right between letters reproduces the dimensional/cut-into-stone alternation of the original logo.</p>
+
+          <div class="doom-panel" style="padding: 32px;">
+            <div class="spec">
+              <div style="font-family: var(--doom-font-display); font-size: 80px; line-height: 0.9; color: var(--doom-blood); text-shadow: 0 3px 0 var(--doom-blood-dark), 0 6px 12px #000;">AMAZDOOMLEFT</div>
+              <span class="spec__meta">Display · AmazDooMLeft · 80px · use for hero / page title</span>
+            </div>
+            <div class="spec">
+              <div style="font-family: var(--doom-font-display-alt); font-size: 80px; line-height: 0.9; color: var(--doom-blood); text-shadow: 0 3px 0 var(--doom-blood-dark);">AMAZDOOMRIGHT</div>
+              <span class="spec__meta">Display alt · AmazDooMRight · alternate every other letter for the layered look</span>
+            </div>
+            <div class="spec">
+              <div style="font-family: var(--doom-font-display-outline); font-size: 64px; line-height: 1; color: var(--doom-bone);">AMAZDOOM OUTLINE</div>
+              <span class="spec__meta">Outline · AmazDooMLeftOutline · subtitles &amp; chapter marks</span>
+            </div>
+            <div class="spec">
+              <div class="doom-h1" style="font-size: 56px;">SECTION HEADING</div>
+              <span class="spec__meta">H1 · AmazDooMLeft · blood with stepped shadow</span>
+            </div>
+            <div class="spec">
+              <div class="doom-h2" style="font-size: 36px;">SUB-SECTION</div>
+              <span class="spec__meta">H2 · AmazDooMLeft · hellfire</span>
+            </div>
+            <div class="spec">
+              <div style="font-family: var(--doom-font-hud); font-size: 28px; color: var(--doom-marine-green);">100%</div>
+              <span class="spec__meta">HUD numeric · Press Start 2P · use for stat readouts</span>
+            </div>
+            <div class="spec">
+              <div style="font-family: var(--doom-font-ui); font-size: 28px; color: var(--doom-bone); letter-spacing: 0.1em;">HEALTH / ARMOR / AMMO</div>
+              <span class="spec__meta">UI labels · VT323 · uppercase, wide tracking</span>
+            </div>
+            <div class="spec">
+              <div style="font-family: var(--doom-font-body); font-size: 16px; color: var(--doom-bone);">Body copy is set in IBM Plex Mono. Monospace keeps the terminal/computer-readout vibe consistent across HTML, Tauri panes, and TUIs.</div>
+              <span class="spec__meta">Body · IBM Plex Mono · 16px / 1.45</span>
+            </div>
+            <div class="spec" style="border-bottom: 0;">
+              <div style="font-family: var(--doom-font-typewriter); font-size: 18px; color: var(--doom-bone-dim);">Special Elite for diegetic notes — pretend it was typed on a UAC terminal in 2145.</div>
+              <span class="spec__meta">Typewriter · Special Elite · narrative / log entries</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============== PANELS =============== -->
+        <section id="panels">
+          <h2>Panels</h2>
+          <p>Every UI surface is a beveled plate. Highlight runs top + left, shadow runs bottom + right. Invert it and the surface reads as <em>pressed in</em> — that's how input fields and recessed displays look.</p>
+          <div class="doom-grid-2">
+            <div class="doom-panel">
+              <h4>Default panel</h4>
+              <p>Brown sepia plate with raised bevel — the universal surface. Pair with bone-colored body text.</p>
+            </div>
+            <div class="doom-panel doom-panel--inset">
+              <h4>Inset panel</h4>
+              <p>Same panel, bevels reversed. Reads as recessed — use it for inputs, display cavities, or terminal readouts.</p>
+            </div>
+            <div class="doom-panel doom-panel--iron">
+              <h4>Iron panel</h4>
+              <p>Cold metal gradient — secondary surface when brown leather is too warm for the context.</p>
+            </div>
+            <div class="doom-panel doom-panel--stone">
+              <h4>Stone panel</h4>
+              <p>Repeating-line texture suggests carved stone. Good for hero blocks and dialog backgrounds.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============== HUD =============== -->
+        <section id="hud">
+          <h2>Status HUD</h2>
+          <p>A direct port of the DOOM status bar (STBAR). Six slots, each a recessed cavity sitting on a beveled brown plate.</p>
+          <div class="doom-statusbar">
+            <div class="doom-stat doom-stat--health"><span class="doom-stat__label">Health</span><span class="doom-stat__value">100%</span></div>
+            <div class="doom-stat doom-stat--armor"><span class="doom-stat__label">Armor</span><span class="doom-stat__value">75%</span></div>
+            <div class="doom-stat doom-stat--ammo"><span class="doom-stat__label">Ammo</span><span class="doom-stat__value">200</span></div>
+            <div class="doom-stat doom-stat--ammo"><span class="doom-stat__label">Rockets</span><span class="doom-stat__value">14</span></div>
+            <div class="doom-stat doom-stat--ammo"><span class="doom-stat__label">Cells</span><span class="doom-stat__value">300</span></div>
+            <div class="doom-stat doom-stat--critical"><span class="doom-stat__label">Threat</span><span class="doom-stat__value">!!</span></div>
+          </div>
+          <p style="margin-top:16px;">Variants color the value (<code>--health</code> green, <code>--armor</code> blue, <code>--ammo</code> yellow, <code>--damage</code> blood). The <code>--critical</code> modifier pulses.</p>
+        </section>
+
+        <!-- =============== BUTTONS =============== -->
+        <section id="buttons">
+          <h2>Buttons</h2>
+          <p>Sharp corners, chunky bevels, no rounded edges anywhere. The press state inverts the bevel and nudges one pixel down + right so you can <em>feel</em> the click.</p>
+          <div class="doom-row">
+            <button class="doom-btn">Engage</button>
+            <button class="doom-btn doom-btn--blood">Rip and Tear</button>
+            <button class="doom-btn doom-btn--fire">Launch Rocket</button>
+            <button class="doom-btn doom-btn--ghost">Cancel</button>
+          </div>
+          <p style="margin-top:16px;">Use <strong>blood</strong> for primary destructive actions, <strong>fire</strong> for confirms, default for neutral, and ghost for secondary/dismiss.</p>
+        </section>
+
+        <!-- =============== INPUTS =============== -->
+        <section id="inputs">
+          <h2>Inputs</h2>
+          <p>All inputs use the inset bevel — they look like they were carved into the plate.</p>
+          <div class="doom-grid-2">
+            <div>
+              <h4>Marine callsign</h4>
+              <input class="doom-input" placeholder="DOOMGUY" />
+            </div>
+            <div>
+              <h4>Loadout</h4>
+              <select class="doom-select">
+                <option>Shotgun</option>
+                <option>Plasma rifle</option>
+                <option>BFG 9000</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-top:16px;">
+            <h4>Mission log</h4>
+            <textarea class="doom-textarea" rows="4" placeholder="Knee-deep in the dead..."></textarea>
+          </div>
+        </section>
+
+        <!-- =============== BARS =============== -->
+        <section id="bars">
+          <h2>Bars</h2>
+          <p>Recessed channels with a glowing fill. Use them for health, armor, ammo, and progress. The <code>--critical</code> variant pulses when low.</p>
+          <div class="doom-stack" style="max-width:520px;">
+            <div><h4>Health 76%</h4><div class="doom-bar doom-bar--health"><div class="doom-bar__fill" style="width:76%;"></div></div></div>
+            <div><h4>Armor 42%</h4><div class="doom-bar doom-bar--armor"><div class="doom-bar__fill" style="width:42%;"></div></div></div>
+            <div><h4>Ammo 88%</h4><div class="doom-bar doom-bar--ammo"><div class="doom-bar__fill" style="width:88%;"></div></div></div>
+            <div><h4>Critical 12%</h4><div class="doom-bar doom-bar--critical"><div class="doom-bar__fill" style="width:12%;"></div></div></div>
+          </div>
+        </section>
+
+        <!-- =============== ALERTS =============== -->
+        <section id="alerts">
+          <h2>Alerts</h2>
+          <div class="doom-stack">
+            <div class="doom-alert">⚠ Demon spotted on E1M3 — engage with extreme prejudice.</div>
+            <div class="doom-alert doom-alert--warn">Low ammo — switch to chainsaw or scavenge.</div>
+            <div class="doom-alert doom-alert--ok">Health pack acquired. +25 HP.</div>
+          </div>
+        </section>
+
+        <!-- =============== TAGS / KEYCARDS =============== -->
+        <section id="tags">
+          <h2>Tags &amp; Keycards</h2>
+          <div class="doom-row">
+            <span class="doom-tag">Neutral</span>
+            <span class="doom-tag doom-tag--red">Hellspawn</span>
+            <span class="doom-tag doom-tag--green">Healed</span>
+            <span class="doom-tag doom-tag--blue">Armored</span>
+            <span class="doom-tag doom-tag--yellow">Quest</span>
+          </div>
+          <div class="doom-row" style="margin-top:16px; align-items:center;">
+            <span class="doom-tag">Keycards:</span>
+            <span class="doom-keycard" title="Red key"></span>
+            <span class="doom-keycard doom-keycard--blue" title="Blue key"></span>
+            <span class="doom-keycard doom-keycard--yellow" title="Yellow key"></span>
+          </div>
+        </section>
+
+        <!-- =============== TABLES =============== -->
+        <section id="tables">
+          <h2>Tables</h2>
+          <table class="doom-table">
+            <thead>
+              <tr><th>Weapon</th><th>Damage</th><th>Ammo</th><th>Slot</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Fist</td><td>2-20</td><td>—</td><td>1</td></tr>
+              <tr><td>Chainsaw</td><td>2-20/tic</td><td>Fuel</td><td>1</td></tr>
+              <tr><td>Pistol</td><td>5-15</td><td>Bullets</td><td>2</td></tr>
+              <tr><td>Shotgun</td><td>35-105</td><td>Shells</td><td>3</td></tr>
+              <tr><td>Plasma rifle</td><td>5-40</td><td>Cells</td><td>6</td></tr>
+              <tr><td>BFG 9000</td><td>100-800</td><td>Cells</td><td>7</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- =============== CODE =============== -->
+        <section id="code">
+          <h2>Code &amp; terminals</h2>
+          <p>Terminal output and code blocks are toxic-green on grate, framed by a blood-red rule on the left.</p>
+<pre>
+&gt; LOGIN UAC-MARTIAN-RESEARCH
+&gt; Access granted — DOOMGUY
+&gt; Threat level: <span class="doom-glow-blood">CRITICAL</span>
+&gt; Deploying...
+</pre>
+          <p>Inline: <code>--doom-blood: #b51d0e</code> ships in <code>doom.css</code>.</p>
+        </section>
+
+        <!-- =============== VOICE =============== -->
+        <section id="voice">
+          <h2>Voice &amp; tone</h2>
+          <div class="doom-grid-2">
+            <div class="doom-panel">
+              <h4 style="color: var(--doom-marine-green);">Do</h4>
+              <p>Short. Imperative. All-caps for verbs that matter. Lean into the marine-radio cadence: <em>"BREACHING. HOLD POSITION."</em></p>
+              <p>Numbers, statuses, threat levels. Concrete nouns over abstract ones.</p>
+            </div>
+            <div class="doom-panel">
+              <h4 style="color: var(--doom-blood-bright);">Don't</h4>
+              <p>Don't write corporate. Don't apologize. Don't soften. No exclamation chains, no emoji, no whimsy.</p>
+              <p>Don't mix metaphors with sci-fi — the world is industrial, infernal, and tactile.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============== USAGE =============== -->
+        <section id="usage">
+          <h2>Usage</h2>
+          <h3>1. Link the stylesheet</h3>
+<pre>&lt;link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&amp;family=Rubik+Mono+One&amp;family=VT323&amp;family=Press+Start+2P&amp;family=Special+Elite&amp;family=IBM+Plex+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"&gt;
+&lt;link rel="stylesheet" href="doom.css"&gt;</pre>
+          <h3>2. Keep the <code>amazdoom/</code> folder next to <code>doom.css</code></h3>
+          <p>The pack is bundled — six TTFs by Amazingmax, all referenced via <code>@font-face</code>. See <code>FONTS.md</code> for attribution. If the pack is ever missing, the fallback chain (Black Ops One via Google Fonts) keeps the system readable.</p>
+          <h3>3. Compose with utility classes</h3>
+<pre>&lt;body class="doom-scanlines doom-vignette"&gt;
+  &lt;div class="doom-container"&gt;
+    &lt;h1 class="doom-logo"&gt;DOOM&lt;/h1&gt;
+    &lt;div class="doom-panel"&gt;...&lt;/div&gt;
+    &lt;button class="doom-btn doom-btn--blood"&gt;Engage&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/body&gt;</pre>
+          <h3>4. For Tauri apps</h3>
+          <p>Drop <code>doom.css</code> and <code>amazdoom/</code> into <code>src/</code> or your asset folder, then import it in your root layout. The Tauri webview is Chromium/WebKit; nothing special needed.</p>
+          <h3>5. For TUIs</h3>
+          <p>See <code>doom-tui.md</code> for ANSI 256 mappings, box-drawing patterns, and an ASCII DOOM logo block.</p>
+        </section>
+
+      </main>
+    </div>
+
+    <footer style="text-align:center; padding: 48px 0 24px; color: var(--doom-ash); font-family: var(--doom-font-typewriter);">
+      <div class="doom-divider" style="max-width:400px; margin: 0 auto 16px;">END OF FILE</div>
+      "There once was a time when I tried to be a good marine..."
+    </footer>
+  </div>
+</body>
+</html>

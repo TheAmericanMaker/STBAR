@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>UAC TERMINAL — STBAR Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Rubik+Mono+One&family=VT323&family=Press+Start+2P&family=Special+Elite&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="doom.css">
+  <style>
+    /* Demo-only layout */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 24px;
+      background: var(--doom-panel);
+      box-shadow:
+        inset 4px 4px 0 0 var(--doom-panel-light),
+        inset -4px -4px 0 0 var(--doom-panel-dark);
+      margin-bottom: 16px;
+    }
+    /* Topbar uses the canonical .doom-logo class with a size override */
+    .topbar .doom-logo { font-size: 44px; }
+    .topbar__sub { font-family: var(--doom-font-ui); font-size: 16px; color: var(--doom-bone-dim); letter-spacing: 0.16em; text-transform: uppercase; }
+    .topbar__right { display: flex; gap: 16px; align-items: center; font-family: var(--doom-font-ui); font-size: 18px; color: var(--doom-bone); }
+    .topbar__right .dot { width: 10px; height: 10px; background: var(--doom-marine-green); box-shadow: 0 0 8px var(--doom-marine-green); }
+
+    .layout { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    @media (max-width: 1000px) { .layout { grid-template-columns: 1fr; } }
+
+    .terminal {
+      background: var(--doom-bg-grate); padding: 12px 14px;
+      box-shadow:
+        inset 3px 3px 0 0 var(--doom-panel-dark),
+        inset -3px -3px 0 0 var(--doom-panel-light);
+      font-family: var(--doom-font-body); font-size: 14px;
+      color: var(--doom-toxic); white-space: pre-wrap; line-height: 1.45;
+      max-height: 280px; overflow-y: auto;
+    }
+    .terminal .ts { color: var(--doom-ash); }
+    .terminal .alert { color: var(--doom-blood-bright); text-shadow: var(--doom-glow-blood); }
+    .terminal .ok { color: var(--doom-marine-green); }
+
+    .radar {
+      position: relative; aspect-ratio: 1 / 1;
+      background:
+        radial-gradient(circle at 50% 50%, transparent 0 36%, rgba(54,163,48,0.08) 36% 38%, transparent 38% 100%),
+        radial-gradient(circle at 50% 50%, transparent 0 60%, rgba(54,163,48,0.06) 60% 62%, transparent 62% 100%),
+        radial-gradient(circle at 50% 50%, transparent 0 84%, rgba(54,163,48,0.05) 84% 86%, transparent 86% 100%),
+        radial-gradient(circle, #0a0f08 0%, #050805 100%);
+      box-shadow: inset 3px 3px 0 0 var(--doom-panel-dark), inset -3px -3px 0 0 var(--doom-panel-light);
+    }
+    .radar::before {
+      content: ''; position: absolute; inset: 0;
+      background: conic-gradient(from 0deg, transparent 0deg, rgba(122,217,50,0.45) 30deg, transparent 60deg, transparent 360deg);
+      animation: sweep 4s linear infinite;
+      border-radius: 0;
+    }
+    .radar__crosshair {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(90deg, transparent calc(50% - 1px), rgba(54,163,48,0.5) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)),
+        linear-gradient(0deg, transparent calc(50% - 1px), rgba(54,163,48,0.5) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px));
+    }
+    .blip {
+      position: absolute; width: 10px; height: 10px;
+      background: var(--doom-blood-bright); box-shadow: var(--doom-glow-blood);
+      animation: blink 1.2s ease-in-out infinite;
+    }
+    @keyframes sweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+    .loadout-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .slot {
+      aspect-ratio: 1/1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: var(--doom-bg-grate); padding: 4px;
+      box-shadow: inset 2px 2px 0 0 var(--doom-panel-dark), inset -2px -2px 0 0 var(--doom-panel-light);
+      position: relative;
+    }
+    .slot__num { position: absolute; top: 2px; left: 4px; font-family: var(--doom-font-ui); font-size: 14px; color: var(--doom-key-yellow); }
+    .slot__icon { font-family: var(--doom-font-display); font-size: 28px; color: var(--doom-bone); line-height: 1; }
+    .slot__name { font-family: var(--doom-font-ui); font-size: 13px; color: var(--doom-bone-dim); text-align: center; letter-spacing: 0.06em; }
+    .slot.active {
+      background: var(--doom-blood-dark);
+      box-shadow: inset 2px 2px 0 0 var(--doom-blood-bright), inset -2px -2px 0 0 #200505, 0 0 12px rgba(232,52,26,0.6);
+    }
+    .slot.active .slot__name { color: var(--doom-bone); }
+  </style>
+</head>
+<body class="doom-scanlines doom-vignette">
+  <div class="doom-container" style="max-width: 1280px;">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div>
+        <h1 class="doom-logo" style="margin:0;">
+          <span>D</span><span class="alt">O</span><span>O</span><span class="alt">M</span>
+        </h1>
+        <div class="topbar__sub">UAC tactical terminal · v1.93</div>
+      </div>
+      <div class="topbar__right">
+        <span class="dot"></span>
+        <span>CONNECTED</span>
+        <span style="color: var(--doom-ash);">|</span>
+        <span>PHOBOS · E1M3</span>
+        <span style="color: var(--doom-ash);">|</span>
+        <span>14:22:08 UTC</span>
+      </div>
+    </header>
+
+    <!-- MAIN LAYOUT -->
+    <div class="layout">
+
+      <!-- MISSION BRIEFING -->
+      <section class="doom-panel">
+        <h2 style="margin-bottom: 12px;">Mission</h2>
+        <div class="doom-row" style="margin-bottom: 12px;">
+          <span class="doom-tag doom-tag--red">PRIORITY 1</span>
+          <span class="doom-tag doom-tag--yellow">HOSTILE</span>
+          <span class="doom-tag">PHOBOS</span>
+        </div>
+        <h3 style="color: var(--doom-bone);">Toxin Refinery — sub-level 3</h3>
+        <p style="color: var(--doom-bone-dim);">Long-range scanners detect a mass-energy bloom signature consistent with demonic incursion in the southern processing wing. Containment failed at 13:47. Marines on station: unresponsive.</p>
+        <p style="font-family: var(--doom-font-typewriter); color: var(--doom-bone-dim); margin-top: 16px;">
+          "Whatever it was, it came through the gateway. Recover the red keycard, breach the reactor core, and seal the rift."
+        </p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px;">
+          <button class="doom-btn doom-btn--blood">Accept &amp; Deploy</button>
+          <button class="doom-btn doom-btn--ghost">Request Recon</button>
+        </div>
+      </section>
+
+      <!-- RADAR / SCANNER -->
+      <section class="doom-panel">
+        <h2 style="margin-bottom: 12px;">Threat Scanner</h2>
+        <div class="radar">
+          <div class="radar__crosshair"></div>
+          <div class="blip" style="top: 30%; left: 62%;"></div>
+          <div class="blip" style="top: 70%; left: 25%; animation-delay: 0.5s;"></div>
+          <div class="blip" style="top: 50%; left: 80%; animation-delay: 0.8s;"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 12px; font-family: var(--doom-font-ui); font-size: 16px; color: var(--doom-bone-dim);">
+          <span>Range: <span style="color: var(--doom-marine-green);">512m</span></span>
+          <span>Contacts: <span class="doom-glow-blood">3</span></span>
+        </div>
+      </section>
+
+      <!-- EQUIPMENT -->
+      <section class="doom-panel">
+        <h2 style="margin-bottom: 12px;">Loadout</h2>
+        <div class="loadout-grid">
+          <div class="slot"><span class="slot__num">1</span><span class="slot__icon">F</span><span class="slot__name">Fist</span></div>
+          <div class="slot"><span class="slot__num">2</span><span class="slot__icon">P</span><span class="slot__name">Pistol</span></div>
+          <div class="slot active"><span class="slot__num">3</span><span class="slot__icon">S</span><span class="slot__name">Shotgun</span></div>
+          <div class="slot"><span class="slot__num">4</span><span class="slot__icon">CG</span><span class="slot__name">Chaingun</span></div>
+          <div class="slot"><span class="slot__num">5</span><span class="slot__icon">RL</span><span class="slot__name">Rockets</span></div>
+          <div class="slot"><span class="slot__num">6</span><span class="slot__icon">PL</span><span class="slot__name">Plasma</span></div>
+          <div class="slot"><span class="slot__num">7</span><span class="slot__icon">B</span><span class="slot__name">BFG</span></div>
+          <div class="slot"><span class="slot__num">8</span><span class="slot__icon">CS</span><span class="slot__name">Chainsaw</span></div>
+        </div>
+        <div class="doom-row" style="margin-top: 16px; align-items:center; justify-content: space-between;">
+          <span style="font-family: var(--doom-font-ui); color: var(--doom-bone-dim);">Keys:</span>
+          <div style="display:flex; gap:6px;">
+            <span class="doom-keycard" title="Red"></span>
+            <span class="doom-keycard doom-keycard--blue" title="Blue" style="opacity:0.25;"></span>
+            <span class="doom-keycard doom-keycard--yellow" title="Yellow"></span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- SYSTEM LOG + ALERTS -->
+    <div class="layout" style="grid-template-columns: 2fr 1fr;">
+      <section class="doom-panel">
+        <h2 style="margin-bottom: 12px;">System log</h2>
+        <div class="terminal">
+<span class="ts">[14:22:08]</span> UAC-NET: Connection established
+<span class="ts">[14:22:09]</span> Loading marine profile: <span class="ok">DOOMGUY</span>
+<span class="ts">[14:21:58]</span> Telemetry: HP 76%, ARMOR 42%
+<span class="ts">[14:21:51]</span> <span class="alert">!! Containment field collapsed — sub-level 3 !!</span>
+<span class="ts">[14:21:32]</span> Marine team Bravo — last ping 8 minutes ago
+<span class="ts">[14:21:14]</span> Gateway flux: <span class="alert">CRITICAL</span>
+<span class="ts">[14:20:55]</span> Recon drone deployed. Streaming...
+<span class="ts">[14:20:30]</span> Ammo restock: shells x40, cells x100
+<span class="ts">[14:20:11]</span> <span class="ok">All systems nominal</span>
+<span class="ts">[14:19:48]</span> Logging in...</div>
+      </section>
+
+      <section class="doom-stack">
+        <div class="doom-alert">⚠ Demon spotted on E1M3 — engage with extreme prejudice.</div>
+        <div class="doom-alert doom-alert--warn">Low ammo (shells 12) — scavenge or switch.</div>
+        <div class="doom-alert doom-alert--ok">Stimpack acquired. +25 HP.</div>
+      </section>
+    </div>
+
+    <!-- BOTTOM HUD -->
+    <div class="doom-statusbar" style="margin-top: 16px;">
+      <div class="doom-stat doom-stat--health"><span class="doom-stat__label">Health</span><span class="doom-stat__value">76%</span></div>
+      <div class="doom-stat doom-stat--armor"><span class="doom-stat__label">Armor</span><span class="doom-stat__value">42%</span></div>
+      <div class="doom-stat doom-stat--ammo"><span class="doom-stat__label">Shells</span><span class="doom-stat__value">12</span></div>
+      <div class="doom-stat doom-stat--ammo"><span class="doom-stat__label">Bullets</span><span class="doom-stat__value">200</span></div>
+      <div class="doom-stat doom-stat--ammo"><span class="doom-stat__label">Rockets</span><span class="doom-stat__value">14</span></div>
+      <div class="doom-stat doom-stat--critical"><span class="doom-stat__label">Threat</span><span class="doom-stat__value">!!</span></div>
+    </div>
+
+    <footer style="text-align:center; padding: 24px 0; color: var(--doom-ash); font-family: var(--doom-font-typewriter);">
+      UAC Confidential · Property of the Union Aerospace Corporation
+    </footer>
+  </div>
+</body>
+</html>

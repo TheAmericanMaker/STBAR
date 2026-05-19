@@ -1,0 +1,573 @@
+/* ============================================================
+   DOOM STYLE — design tokens & components
+   Inspired by id Software's DOOM (1993). Hard authentic.
+   Drop this file into any HTML project and use the variables
+   and utility classes below.
+   ============================================================ */
+
+/* ---------- Fonts (AmazDooM by Amazingmax) -------------------
+   The font files live in amazdoom/ and are bundled with this
+   repo. Six faces (Left, Right, Outline variants) — alternate
+   Left/Right between letters for the iconic DOOM-logo layered
+   look. Big thanks to Amazingmax for releasing this font free
+   for use. See FONTS.md for attribution and license details.
+   ------------------------------------------------------------ */
+@font-face {
+  font-family: 'AmazDooMLeft';
+  src: url('amazdoom/AmazDooMLeft.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AmazDooMLeft2';
+  src: url('amazdoom/AmazDooMLeft2.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AmazDooMLeftOutline';
+  src: url('amazdoom/AmazDooMLeftOutline.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AmazDooMRight';
+  src: url('amazdoom/AmazDooMRight.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AmazDooMRight2';
+  src: url('amazdoom/AmazDooMRight2.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AmazDooMRightOutline';
+  src: url('amazdoom/AmazDooMRightOutline.ttf') format('truetype');
+  font-display: swap;
+}
+
+/* HUD + body fallback fonts from Google Fonts (recommended import in HTML):
+     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Special+Elite&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+*/
+
+/* ===========================================================
+   TOKENS
+   =========================================================== */
+:root {
+  /* ---- Surface / background ---- */
+  --doom-bg-void:        #0a0a0a;   /* deep black, pit */
+  --doom-bg-stone:       #1a1715;   /* stone/floor */
+  --doom-bg-iron:        #2a2522;   /* metal plating */
+  --doom-bg-grate:       #15110e;   /* dark grate */
+
+  /* ---- HUD panel (the iconic brown STBAR) ---- */
+  --doom-panel:          #4a3a2a;   /* leather/sepia base */
+  --doom-panel-light:    #7a5e3c;   /* bevel highlight */
+  --doom-panel-dark:     #251a10;   /* bevel shadow */
+  --doom-panel-deep:     #38291c;
+
+  /* ---- Status / signal ---- */
+  --doom-blood:          #b51d0e;   /* primary blood red */
+  --doom-blood-bright:   #e8341a;   /* hit splash / hover */
+  --doom-blood-dark:     #6b0d05;
+  --doom-hellfire:       #f96e1f;   /* rocket flare */
+  --doom-hellfire-bright:#ffb347;
+  --doom-marine-green:   #36a330;   /* health % */
+  --doom-marine-green-dk:#1f6919;
+  --doom-armor-blue:     #1e5fb8;   /* armor % */
+  --doom-key-yellow:     #f0c20c;   /* yellow key / warn */
+  --doom-key-red:        #d61b1b;   /* red key */
+  --doom-key-blue:       #1c7be5;   /* blue key */
+  --doom-toxic:          #7ad932;   /* nukage */
+  --doom-rust:           #8b4513;
+
+  /* ---- Type ---- */
+  --doom-bone:           #e8dcc4;   /* primary on dark */
+  --doom-bone-dim:       #b8a886;   /* secondary */
+  --doom-ash:            #6e655a;   /* muted / disabled */
+
+  /* ---- Shadow / glow ---- */
+  --doom-shadow-deep:    rgba(0,0,0,0.85);
+  --doom-glow-blood:     0 0 8px #b51d0e, 0 0 18px #6b0d05;
+  --doom-glow-fire:      0 0 8px #f96e1f, 0 0 22px #b51d0e;
+  --doom-glow-toxic:     0 0 8px #7ad932, 0 0 18px #36a330;
+
+  /* ---- Font stacks ---- */
+  --doom-font-display:           'AmazDooMLeft', 'Black Ops One', 'Rubik Mono One', Impact, sans-serif;
+  --doom-font-display-alt:       'AmazDooMRight', 'Black Ops One', Impact, sans-serif;
+  --doom-font-display-outline:   'AmazDooMLeftOutline', Impact, sans-serif;
+  --doom-font-hud:               'Press Start 2P', 'VT323', ui-monospace, monospace;
+  --doom-font-ui:                'VT323', 'IBM Plex Mono', ui-monospace, monospace;
+  --doom-font-body:              'IBM Plex Mono', 'Courier New', ui-monospace, monospace;
+  --doom-font-typewriter:        'Special Elite', 'Courier New', monospace;
+
+  /* ---- Scale (chunky 4px grid) ---- */
+  --doom-space-1:  4px;
+  --doom-space-2:  8px;
+  --doom-space-3: 12px;
+  --doom-space-4: 16px;
+  --doom-space-6: 24px;
+  --doom-space-8: 32px;
+  --doom-space-12: 48px;
+  --doom-space-16: 64px;
+
+  /* ---- Bevel weights (the look of every UI surface in DOOM) ---- */
+  --doom-bevel-1: 2px;
+  --doom-bevel-2: 4px;
+  --doom-bevel-3: 6px;
+}
+
+/* ===========================================================
+   BASE
+   =========================================================== */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--doom-bg-void);
+  color: var(--doom-bone);
+  font-family: var(--doom-font-body);
+  font-size: 16px;
+  line-height: 1.45;
+  /* No subpixel smoothing — keep edges crunchy. */
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  /* Tiled stone texture using only CSS (no external assets). */
+  background-image:
+    radial-gradient(circle at 20% 30%, #1a1614 0 1px, transparent 2px),
+    radial-gradient(circle at 70% 80%, #161210 0 1px, transparent 2px),
+    radial-gradient(circle at 50% 50%, #0d0a08 0 1px, transparent 2px),
+    linear-gradient(180deg, #0a0a0a 0%, #120e0c 100%);
+  background-size: 7px 7px, 11px 11px, 5px 5px, 100% 100%;
+  min-height: 100vh;
+}
+
+::selection { background: var(--doom-blood); color: var(--doom-bone); }
+
+a {
+  color: var(--doom-hellfire-bright);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--doom-hellfire);
+}
+a:hover { color: var(--doom-blood-bright); text-shadow: var(--doom-glow-fire); }
+
+hr {
+  border: 0;
+  height: 0;
+  border-top: 2px solid var(--doom-panel-dark);
+  border-bottom: 2px solid var(--doom-panel-light);
+  margin: var(--doom-space-6) 0;
+}
+
+/* ===========================================================
+   TYPOGRAPHY
+   =========================================================== */
+.doom-logo {
+  /* The big one — pair adjacent letters with the -alt class to
+     replicate the dimensional alternation of the DOOM logo. */
+  font-family: var(--doom-font-display);
+  font-size: clamp(56px, 12vw, 160px);
+  line-height: 0.9;
+  color: var(--doom-blood);
+  letter-spacing: 0.02em;
+  text-shadow:
+    0 4px 0 var(--doom-blood-dark),
+    0 8px 0 #2a0805,
+    0 12px 24px rgba(0,0,0,0.9);
+  margin: 0;
+  display: inline-block;
+}
+.doom-logo .alt { font-family: var(--doom-font-display-alt); }
+
+h1, .doom-h1 {
+  font-family: var(--doom-font-display);
+  font-size: clamp(32px, 5vw, 56px);
+  color: var(--doom-blood);
+  text-shadow: 0 3px 0 var(--doom-blood-dark), 0 6px 12px #000;
+  margin: 0 0 var(--doom-space-4);
+  letter-spacing: 0.04em;
+}
+h2, .doom-h2 {
+  font-family: var(--doom-font-display);
+  font-size: clamp(24px, 3vw, 36px);
+  color: var(--doom-hellfire);
+  text-shadow: 0 2px 0 #4a1f08, 0 4px 8px #000;
+  margin: 0 0 var(--doom-space-3);
+  letter-spacing: 0.04em;
+}
+h3, .doom-h3 {
+  font-family: var(--doom-font-ui);
+  font-size: 26px;
+  color: var(--doom-bone);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 var(--doom-space-2);
+}
+h4, .doom-h4 {
+  font-family: var(--doom-font-ui);
+  font-size: 20px;
+  color: var(--doom-bone-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin: 0 0 var(--doom-space-2);
+}
+
+p { margin: 0 0 var(--doom-space-4); }
+
+code, kbd, samp, pre {
+  font-family: var(--doom-font-body);
+  background: var(--doom-bg-grate);
+  color: var(--doom-toxic);
+  padding: 2px 6px;
+  border: 1px solid var(--doom-panel-dark);
+}
+pre {
+  padding: var(--doom-space-4);
+  overflow-x: auto;
+  border-left: 4px solid var(--doom-blood);
+}
+
+/* Glow utilities (use sparingly — apply to "important" copy) */
+.doom-glow-blood  { color: var(--doom-blood-bright);  text-shadow: var(--doom-glow-blood); }
+.doom-glow-fire   { color: var(--doom-hellfire-bright); text-shadow: var(--doom-glow-fire); }
+.doom-glow-toxic  { color: var(--doom-toxic);          text-shadow: var(--doom-glow-toxic); }
+
+/* ===========================================================
+   PANELS  — the universal DOOM UI surface
+   Brown leather/sepia plate with a chunky 4px stepped bevel:
+   highlight top+left, shadow bottom+right. Inverted bevel
+   reads as "pressed in" (use for input fields).
+   =========================================================== */
+.doom-panel {
+  background: var(--doom-panel);
+  color: var(--doom-bone);
+  padding: var(--doom-space-4);
+  border: 2px solid var(--doom-panel-dark);
+  box-shadow:
+    inset  var(--doom-bevel-2)  var(--doom-bevel-2) 0 0 var(--doom-panel-light),
+    inset calc(-1 * var(--doom-bevel-2)) calc(-1 * var(--doom-bevel-2)) 0 0 var(--doom-panel-dark),
+    0 6px 0 #000, 0 8px 24px rgba(0,0,0,0.6);
+  position: relative;
+}
+.doom-panel--inset { /* pressed-in inverse bevel */
+  box-shadow:
+    inset  var(--doom-bevel-2)  var(--doom-bevel-2) 0 0 var(--doom-panel-dark),
+    inset calc(-1 * var(--doom-bevel-2)) calc(-1 * var(--doom-bevel-2)) 0 0 var(--doom-panel-light);
+}
+.doom-panel--iron {
+  background: linear-gradient(180deg, #3a3530 0%, #1f1c19 100%);
+  color: var(--doom-bone);
+}
+.doom-panel--stone {
+  background:
+    repeating-linear-gradient(0deg, #1f1a16 0 2px, transparent 2px 4px),
+    var(--doom-bg-stone);
+}
+
+/* ===========================================================
+   STATUS BAR (STBAR) — the iconic bottom HUD strip
+   =========================================================== */
+.doom-statusbar {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--doom-space-2);
+  padding: var(--doom-space-4);
+  background: var(--doom-panel);
+  border: 2px solid var(--doom-panel-dark);
+  box-shadow:
+    inset 4px 4px 0 0 var(--doom-panel-light),
+    inset -4px -4px 0 0 var(--doom-panel-dark);
+}
+.doom-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--doom-space-1);
+  padding: var(--doom-space-2);
+  background: var(--doom-bg-grate);
+  box-shadow:
+    inset 3px 3px 0 0 var(--doom-panel-dark),
+    inset -3px -3px 0 0 var(--doom-panel-light);
+  min-height: 70px;
+}
+.doom-stat__label {
+  font-family: var(--doom-font-ui);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--doom-bone-dim);
+}
+.doom-stat__value {
+  font-family: var(--doom-font-ui);
+  font-size: 40px;
+  line-height: 1;
+  color: var(--doom-marine-green);
+  text-shadow: 0 0 6px rgba(54,163,48,0.55);
+}
+.doom-stat--health  .doom-stat__value { color: var(--doom-marine-green); }
+.doom-stat--armor   .doom-stat__value { color: var(--doom-armor-blue);   text-shadow: 0 0 6px rgba(30,95,184,0.6); }
+.doom-stat--ammo    .doom-stat__value { color: var(--doom-key-yellow);   text-shadow: 0 0 6px rgba(240,194,12,0.6); }
+.doom-stat--damage  .doom-stat__value { color: var(--doom-blood-bright); text-shadow: var(--doom-glow-blood); }
+.doom-stat--critical .doom-stat__value { color: var(--doom-blood-bright); text-shadow: var(--doom-glow-blood); animation: doom-pulse 1.2s ease-in-out infinite; }
+
+@keyframes doom-pulse {
+  0%, 100% { opacity: 1;   filter: brightness(1); }
+  50%      { opacity: 0.7; filter: brightness(1.4); }
+}
+
+/* ===========================================================
+   BUTTONS
+   Sharp corners, chunky bevels, invert on :active (pressed in).
+   =========================================================== */
+.doom-btn {
+  font-family: var(--doom-font-ui);
+  font-size: 20px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--doom-bone);
+  background: var(--doom-panel);
+  padding: var(--doom-space-3) var(--doom-space-6);
+  border: 2px solid var(--doom-panel-dark);
+  box-shadow:
+    inset 4px 4px 0 0 var(--doom-panel-light),
+    inset -4px -4px 0 0 var(--doom-panel-dark);
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  user-select: none;
+  transition: filter 0.05s linear, color 0.1s;
+}
+.doom-btn:hover { filter: brightness(1.15); color: var(--doom-hellfire-bright); }
+.doom-btn:active {
+  box-shadow:
+    inset 4px 4px 0 0 var(--doom-panel-dark),
+    inset -4px -4px 0 0 var(--doom-panel-light);
+  transform: translate(1px, 1px);
+}
+.doom-btn:focus-visible {
+  outline: 2px dashed var(--doom-key-yellow);
+  outline-offset: 4px;
+}
+
+.doom-btn--blood {
+  background: var(--doom-blood);
+  color: var(--doom-bone);
+  box-shadow:
+    inset 4px 4px 0 0 #e8341a,
+    inset -4px -4px 0 0 var(--doom-blood-dark);
+}
+.doom-btn--blood:hover { color: #fff; text-shadow: var(--doom-glow-blood); }
+
+.doom-btn--fire {
+  background: var(--doom-hellfire);
+  color: #1a0a04;
+  box-shadow:
+    inset 4px 4px 0 0 var(--doom-hellfire-bright),
+    inset -4px -4px 0 0 #8a3a0e;
+}
+
+.doom-btn--ghost {
+  background: transparent;
+  color: var(--doom-bone-dim);
+  box-shadow: inset 0 0 0 2px var(--doom-panel-light);
+  border: none;
+}
+.doom-btn--ghost:hover {
+  background: var(--doom-panel-dark);
+  color: var(--doom-bone);
+}
+
+/* ===========================================================
+   INPUTS  (pressed-in bevel)
+   =========================================================== */
+.doom-input,
+.doom-textarea,
+.doom-select {
+  font-family: var(--doom-font-ui);
+  font-size: 18px;
+  color: var(--doom-bone);
+  background: var(--doom-bg-grate);
+  padding: var(--doom-space-2) var(--doom-space-3);
+  border: 2px solid var(--doom-panel-dark);
+  box-shadow:
+    inset 3px 3px 0 0 var(--doom-panel-dark),
+    inset -3px -3px 0 0 var(--doom-panel-light);
+  width: 100%;
+  outline: none;
+}
+.doom-input::placeholder { color: var(--doom-ash); }
+.doom-input:focus,
+.doom-textarea:focus,
+.doom-select:focus {
+  border-color: var(--doom-hellfire);
+  color: var(--doom-hellfire-bright);
+}
+
+/* ===========================================================
+   BARS — health / armor / progress
+   =========================================================== */
+.doom-bar {
+  height: 18px;
+  background: var(--doom-bg-grate);
+  box-shadow:
+    inset 2px 2px 0 0 var(--doom-panel-dark),
+    inset -2px -2px 0 0 var(--doom-panel-light);
+  position: relative;
+  overflow: hidden;
+}
+.doom-bar__fill {
+  height: 100%;
+  background: var(--doom-marine-green);
+  box-shadow: 0 0 8px rgba(54,163,48,0.5);
+  transition: width 0.3s ease;
+}
+.doom-bar--health  .doom-bar__fill { background: var(--doom-marine-green); }
+.doom-bar--armor   .doom-bar__fill { background: var(--doom-armor-blue); }
+.doom-bar--ammo    .doom-bar__fill { background: var(--doom-key-yellow); }
+.doom-bar--critical .doom-bar__fill { background: var(--doom-blood-bright); animation: doom-pulse 0.8s ease-in-out infinite; }
+
+/* ===========================================================
+   ALERTS / TAGS / KEYCARDS
+   =========================================================== */
+.doom-alert {
+  padding: var(--doom-space-3) var(--doom-space-4);
+  border: 2px solid var(--doom-blood-dark);
+  background: linear-gradient(180deg, #2a0a05 0%, #18090c 100%);
+  color: var(--doom-blood-bright);
+  font-family: var(--doom-font-ui);
+  font-size: 18px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow:
+    inset 3px 3px 0 0 var(--doom-blood),
+    inset -3px -3px 0 0 #200505;
+}
+.doom-alert--warn {
+  background: linear-gradient(180deg, #2a1f00 0%, #1a1404 100%);
+  color: var(--doom-key-yellow);
+  border-color: #5a4a08;
+  box-shadow:
+    inset 3px 3px 0 0 var(--doom-key-yellow),
+    inset -3px -3px 0 0 #1f1604;
+}
+.doom-alert--ok {
+  background: linear-gradient(180deg, #052a08 0%, #08180a 100%);
+  color: var(--doom-marine-green);
+  border-color: var(--doom-marine-green-dk);
+  box-shadow:
+    inset 3px 3px 0 0 var(--doom-marine-green),
+    inset -3px -3px 0 0 #051a06;
+}
+
+.doom-tag {
+  display: inline-block;
+  font-family: var(--doom-font-ui);
+  font-size: 14px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 2px 10px;
+  background: var(--doom-bg-iron);
+  color: var(--doom-bone-dim);
+  border: 1px solid var(--doom-panel-dark);
+  box-shadow: inset 0 0 0 1px var(--doom-panel-light);
+}
+.doom-tag--red    { background: #5a0a05; color: #ffcfc6; }
+.doom-tag--green  { background: #0a3a08; color: #c8f0c0; }
+.doom-tag--blue   { background: #0a1f4a; color: #c4d8ff; }
+.doom-tag--yellow { background: #4a3a05; color: #fff0a8; }
+
+.doom-keycard {
+  display: inline-flex; align-items: center; gap: 6px;
+  width: 28px; height: 20px;
+  background: var(--doom-key-red);
+  box-shadow:
+    inset 2px 2px 0 0 #ff7060,
+    inset -2px -2px 0 0 #5a0808;
+}
+.doom-keycard--blue   { background: var(--doom-key-blue);   box-shadow: inset 2px 2px 0 0 #6cb0ff, inset -2px -2px 0 0 #0a2860; }
+.doom-keycard--yellow { background: var(--doom-key-yellow); box-shadow: inset 2px 2px 0 0 #ffe865, inset -2px -2px 0 0 #6a4a05; }
+
+/* ===========================================================
+   SCANLINES + CRT (apply to <body> or wrapper)
+   =========================================================== */
+.doom-scanlines { position: relative; }
+.doom-scanlines::after {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2px,
+    rgba(0,0,0,0.22) 2px,
+    rgba(0,0,0,0.22) 3px
+  );
+  pointer-events: none;
+  z-index: 9998;
+  mix-blend-mode: multiply;
+}
+.doom-vignette::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.7) 100%);
+  pointer-events: none;
+  z-index: 9997;
+}
+
+/* ===========================================================
+   TABLE  (terminal-ish, monospaced, gridded)
+   =========================================================== */
+.doom-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--doom-font-body);
+  background: var(--doom-bg-grate);
+  border: 2px solid var(--doom-panel-dark);
+}
+.doom-table th,
+.doom-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--doom-panel-dark);
+  text-align: left;
+}
+.doom-table th {
+  background: var(--doom-panel);
+  color: var(--doom-bone);
+  font-family: var(--doom-font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 14px;
+}
+.doom-table tr:hover td { background: rgba(181,29,14,0.08); }
+
+/* ===========================================================
+   DIVIDERS / ORNAMENTS
+   =========================================================== */
+.doom-divider {
+  display: flex; align-items: center; gap: var(--doom-space-3);
+  margin: var(--doom-space-6) 0;
+  color: var(--doom-blood);
+  font-family: var(--doom-font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 14px;
+}
+.doom-divider::before,
+.doom-divider::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--doom-blood-dark), var(--doom-blood), var(--doom-blood-dark), transparent);
+}
+
+/* ===========================================================
+   LAYOUT HELPERS
+   =========================================================== */
+.doom-container { max-width: 1200px; margin: 0 auto; padding: var(--doom-space-6); }
+.doom-stack > * + * { margin-top: var(--doom-space-4); }
+.doom-row { display: flex; gap: var(--doom-space-3); flex-wrap: wrap; }
+.doom-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--doom-space-4); }
+
+/* ===========================================================
+   END
+   =========================================================== */

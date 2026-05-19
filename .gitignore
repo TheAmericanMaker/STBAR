@@ -1,0 +1,19 @@
+# Node / build
+node_modules/
+package.json
+package-lock.json
+build-docx.js
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Logs / temp
+*.log
+*.tmp
+.cache/
