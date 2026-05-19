@@ -15,11 +15,13 @@ For websites, web apps, Tauri apps, and TUIs.
 
 ## Screenshots
 
+A sample interface (UAC tactical terminal) built end-to-end with STBAR — this is `demo.html` rendered in a browser.
+
 ![UAC tactical terminal — top half, showing the AmazDooM logo, mission briefing, threat-scanner radar, and weapon loadout](screenshots/demo-Screenshot.png)
 
 ![UAC tactical terminal — bottom half, showing the system log, severity-coded alerts, and the STBAR status HUD with color-coded stats](screenshots/demo-Screenshot-2.png)
 
-Both shots are of `demo.html` rendered in a browser — the same file shipped in this repo. Scanlines, vignette, bevels, glow, and the alternating-bevel DOOM logo are all CSS; nothing is a static image.
+Scanlines, vignette, bevels, glow, and the alternating-bevel DOOM logo are all CSS — nothing is a static image. The full component catalog is at the bottom of this README.
 
 ## What's in here
 
@@ -33,7 +35,7 @@ Both shots are of `demo.html` rendered in a browser — the same file shipped in
 | `STBAR-Style-Guide.docx` | Printable/shareable written guide with palette swatches, type rules, and do/don'ts. |
 | `FONTS.md` | Font attribution and license details. |
 | `LICENSE` | MIT — covers the code, docs, and stylesheets authored here. |
-| `screenshots/` | Renders of `demo.html` used in this README. |
+| `screenshots/` | Renders of `demo.html` and `style-guide.html` used in this README. |
 
 ## Quick start
 
@@ -101,3 +103,20 @@ the project searchable, easier to recommend, and zero-risk on the
 trademark side. The inspiration is acknowledged in prose throughout this
 README and in `FONTS.md`. None of this is legal advice — when in doubt,
 talk to a lawyer.
+
+---
+
+## The component catalog — `style-guide.html`
+
+The living style guide. Hero view first; the full-page render with every component, swatch, and type specimen is below it (collapsed by default — it's a long page).
+
+![Style guide hero — DOOM logo, navigation, and the start of the palette section](screenshots/style-guide-hero.png)
+
+<details>
+<summary><strong>Full style-guide.html render</strong> (click to expand — large image)</summary>
+
+<br>
+
+![Full living style guide — palette, typography, panels, status HUD, buttons, inputs, bars, alerts, tags, keycards, tables, code blocks, voice/tone, and usage instructions, all in one page](screenshots/style-guide-Screenshot.png)
+
+</details>
