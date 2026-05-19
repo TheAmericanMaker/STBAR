@@ -13,6 +13,14 @@ For websites, web apps, Tauri apps, and TUIs.
 > language of the 1993 game. No original game assets — sprites, sounds, art,
 > or logo images — are reproduced or distributed in this repository.
 
+## Screenshots
+
+![UAC tactical terminal — top half, showing the AmazDooM logo, mission briefing, threat-scanner radar, and weapon loadout](screenshots/demo-Screenshot.png)
+
+![UAC tactical terminal — bottom half, showing the system log, severity-coded alerts, and the STBAR status HUD with color-coded stats](screenshots/demo-Screenshot-2.png)
+
+Both shots are of `demo.html` rendered in a browser — the same file shipped in this repo. Scanlines, vignette, bevels, glow, and the alternating-bevel DOOM logo are all CSS; nothing is a static image.
+
 ## What's in here
 
 | File | What it is |
@@ -25,6 +33,7 @@ For websites, web apps, Tauri apps, and TUIs.
 | `STBAR-Style-Guide.docx` | Printable/shareable written guide with palette swatches, type rules, and do/don'ts. |
 | `FONTS.md` | Font attribution and license details. |
 | `LICENSE` | MIT — covers the code, docs, and stylesheets authored here. |
+| `screenshots/` | Renders of `demo.html` used in this README. |
 
 ## Quick start
 
